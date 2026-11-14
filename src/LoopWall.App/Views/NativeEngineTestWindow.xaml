@@ -1,0 +1,68 @@
+<Window x:Class="LoopWall.App.Views.NativeEngineTestWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="LoopWall — Native engine test" Height="720" Width="1040"
+        MinHeight="520" MinWidth="760"
+        WindowStartupLocation="CenterOwner"
+        Background="{StaticResource WindowBrush}"
+        Foreground="#F4F7FC">
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid Margin="0,0,0,18">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel>
+                <TextBlock Text="Native playback engine test" FontSize="21" FontWeight="SemiBold"/>
+                <TextBlock x:Name="VideoNameText" Foreground="{StaticResource MutedBrush}"
+                           FontSize="12" Margin="0,5,0,0" TextTrimming="CharacterEllipsis"/>
+            </StackPanel>
+            <Border Grid.Column="1" Background="#1C302A" CornerRadius="18" Padding="12,7" VerticalAlignment="Center">
+                <TextBlock x:Name="EngineVersionText" Text="Loading engine…" Foreground="#A8E7C8"
+                           FontSize="11" FontWeight="SemiBold"/>
+            </Border>
+        </Grid>
+
+        <Border Grid.Row="1" Background="#080B10" CornerRadius="12" ClipToBounds="True">
+            <Grid>
+                <Image x:Name="NativePreview" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality"/>
+                <StackPanel x:Name="WaitingPanel" HorizontalAlignment="Center" VerticalAlignment="Center"
+                            IsHitTestVisible="False">
+                    <TextBlock Text="▶" FontSize="42" Foreground="#52627A" HorizontalAlignment="Center"/>
+                    <TextBlock x:Name="WaitingText" Text="Opening native decoder…" FontSize="14"
+                               Foreground="#AAB6C8" Margin="0,12,0,0" HorizontalAlignment="Center"/>
+                    <TextBlock Text="Frames are decoded by Media Foundation and copied into this test preview."
+                               FontSize="11" Foreground="#68768A" Margin="0,5,0,0" HorizontalAlignment="Center"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <Grid Grid.Row="2" Margin="0,16,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel>
+                <TextBlock x:Name="PlaybackStateText" Text="Preparing decoder" FontWeight="SemiBold"/>
+                <TextBlock x:Name="FrameDetailsText" Text="No native frames received yet"
+                           Foreground="{StaticResource MutedBrush}" FontSize="11" Margin="0,4,0,0"/>
+            </StackPanel>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                <Button x:Name="PlayButton" Content="Play" Click="PlayButton_Click" IsEnabled="False" Margin="0,0,8,0"/>
+                <Button x:Name="PauseButton" Content="Pause" Click="PauseButton_Click" IsEnabled="False" Margin="0,0,8,0"/>
+                <Button x:Name="StopButton" Content="Stop" Click="StopButton_Click" IsEnabled="False" Margin="0,0,8,0"/>
+                <Button Content="Close" Click="CloseButton_Click"/>
+            </StackPanel>
+        </Grid>
+
+        <TextBlock Grid.Row="3" Text="This is a Phase 2 diagnostic preview. It does not set a desktop wallpaper and does not prove GPU decoding."
+                   Foreground="#E7BC72" FontSize="11" Margin="0,15,0,0" TextWrapping="Wrap"/>
+    </Grid>
+</Window>

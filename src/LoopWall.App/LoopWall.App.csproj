@@ -7,5 +7,20 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>LoopWall.App</RootNamespace>
     <AssemblyName>LoopWall</AssemblyName>
+    <PlatformTarget>x64</PlatformTarget>
+    <Platforms>AnyCPU;x64</Platforms>
+    <Prefer32Bit>false</Prefer32Bit>
+    <NativeEngineSourceDirectory>$(MSBuildProjectDirectory)\..\..\native\LoopWall.Engine</NativeEngineSourceDirectory>
+    <NativeEngineBuildDirectory>$(MSBuildProjectDirectory)\obj\native\cmake</NativeEngineBuildDirectory>
+    <NativeEngineDll>$(NativeEngineBuildDirectory)\$(Configuration)\LoopWall.Engine.dll</NativeEngineDll>
   </PropertyGroup>
+
+  <Target Name="BuildNativeEngine" BeforeTargets="CopyFilesToOutputDirectory"
+          Condition="'$(DesignTimeBuild)' != 'true' and '$(SkipNativeEngineBuild)' != 'true'">
+    <Exec Command="cmake -S &quot;$(NativeEngineSourceDirectory)&quot; -B &quot;$(NativeEngineBuildDirectory)&quot; -G &quot;Visual Studio 17 2022&quot; -A x64" />
+    <Exec Command="cmake --build &quot;$(NativeEngineBuildDirectory)&quot; --config $(Configuration) --target LoopWall.Engine" />
+    <Error Condition="!Exists('$(NativeEngineDll)')"
+           Text="The native build completed without producing $(NativeEngineDll)." />
+    <Copy SourceFiles="$(NativeEngineDll)" DestinationFolder="$(OutDir)" SkipUnchangedFiles="true" />
+  </Target>
 </Project>

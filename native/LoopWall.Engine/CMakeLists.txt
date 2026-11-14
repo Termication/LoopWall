@@ -19,9 +19,16 @@ target_link_libraries(LoopWall.Engine PRIVATE mfplat mfreadwrite mfuuid ole32)
 
 set_target_properties(LoopWall.Engine PROPERTIES
     OUTPUT_NAME "LoopWall.Engine"
+    PREFIX ""
     WINDOWS_EXPORT_ALL_SYMBOLS OFF
 )
 
 if(MSVC)
     target_compile_options(LoopWall.Engine PRIVATE /W4 /permissive- /EHsc)
+endif()
+
+if(MINGW)
+    # Keep the DLL deployable beside the WPF application without relying on a
+    # MinGW C++ runtime being present in the user's PATH.
+    target_link_options(LoopWall.Engine PRIVATE -static-libgcc -static-libstdc++)
 endif()

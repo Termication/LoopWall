@@ -98,10 +98,12 @@
                         <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
                             <Button x:Name="PlayPauseButton" Content="Play" Click="PlayPauseButton_Click"
                                     IsEnabled="False" Margin="0,0,8,0"/>
-                            <Button Content="Stop" Click="StopButton_Click" IsEnabled="False" x:Name="StopButton"/>
+                            <Button Content="Stop" Click="StopButton_Click" IsEnabled="False" x:Name="StopButton" Margin="0,0,8,0"/>
+                            <Button x:Name="NativeEngineTestButton" Content="Native engine test"
+                                    Click="NativeEngineTestButton_Click" IsEnabled="False"/>
                         </StackPanel>
                     </Grid>
-                    <TextBlock Grid.Row="3" Text="Phase 1 preview only — applying a live desktop wallpaper arrives in a later phase."
+                    <TextBlock Grid.Row="3" Text="The WPF preview stays separate from the Phase 2 native decoder test. Applying a live desktop wallpaper arrives in a later phase."
                                Foreground="#E7BC72" FontSize="11" Margin="0,15,0,0" TextWrapping="Wrap"/>
                 </Grid>
             </Border>
@@ -172,7 +174,7 @@
 
         <!-- Footer -->
         <DockPanel Grid.Row="2" Margin="0,18,0,0">
-            <TextBlock Text="LOOPWALL  •  PHASE 1" Foreground="#65748A" FontSize="10"
+            <TextBlock Text="LOOPWALL  •  PHASE 2" Foreground="#65748A" FontSize="10"
                        FontWeight="Bold" VerticalAlignment="Center"/>
             <TextBlock x:Name="StatusText" Text="Ready" Foreground="{StaticResource MutedBrush}"
                        FontSize="11" DockPanel.Dock="Right" HorizontalAlignment="Right"/>

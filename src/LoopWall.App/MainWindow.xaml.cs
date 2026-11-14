@@ -105,6 +105,7 @@ public partial class MainWindow : Window
             SelectedVideoDetails.Text = $"{selected.Extension}  •  {selected.FullPath}";
             PlayPauseButton.IsEnabled = false;
             StopButton.IsEnabled = false;
+            NativeEngineTestButton.IsEnabled = File.Exists(selected.FullPath);
             _isPlaying = false;
             PlayPauseButton.Content = "Play";
             StatusText.Text = "Opening video preview...";
@@ -182,6 +183,27 @@ public partial class MainWindow : Window
         PlayPauseButton.Content = "Play";
         PreviewStateText.Text = "STOPPED";
         StatusText.Text = "Preview stopped";
+    }
+
+    private void NativeEngineTestButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (VideoList.SelectedItem is not WallpaperVideo selected)
+            return;
+
+        try
+        {
+            var testWindow = new Views.NativeEngineTestWindow(selected)
+            {
+                Owner = this
+            };
+            testWindow.Show();
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show(this,
+                $"Could not open the native engine test window: {ex.Message}",
+                "LoopWall native engine", MessageBoxButton.OK, MessageBoxImage.Warning);
+        }
     }
 
     private void UpdateLibraryCount()

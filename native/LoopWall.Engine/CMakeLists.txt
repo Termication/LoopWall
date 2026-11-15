@@ -31,4 +31,5 @@ if(MINGW)
     # Keep the DLL deployable beside the WPF application without relying on a
     # MinGW C++ runtime being present in the user's PATH.
     target_link_options(LoopWall.Engine PRIVATE -static-libgcc -static-libstdc++)
+    target_link_libraries(LoopWall.Engine PRIVATE -Wl,-Bstatic winpthread -Wl,-Bdynamic)
 endif()

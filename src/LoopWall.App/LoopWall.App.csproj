@@ -12,12 +12,19 @@
     <Prefer32Bit>false</Prefer32Bit>
     <NativeEngineSourceDirectory>$(MSBuildProjectDirectory)\..\..\native\LoopWall.Engine</NativeEngineSourceDirectory>
     <NativeEngineBuildDirectory>$(MSBuildProjectDirectory)\obj\native\cmake</NativeEngineBuildDirectory>
-    <NativeEngineDll>$(NativeEngineBuildDirectory)\$(Configuration)\LoopWall.Engine.dll</NativeEngineDll>
+    <MinGwBinDirectory>C:\ProgramData\mingw64\mingw64\bin</MinGwBinDirectory>
+    <MinGwMakeProgram>$(MinGwBinDirectory)\mingw32-make.exe</MinGwMakeProgram>
+    <NativeCMakeGenerator Condition="'$(NativeCMakeGenerator)' == '' and Exists('$(MinGwMakeProgram)')">MinGW Makefiles</NativeCMakeGenerator>
+    <NativeCMakeGenerator Condition="'$(NativeCMakeGenerator)' == ''">Visual Studio 17 2022</NativeCMakeGenerator>
+    <NativeCMakeGeneratorArguments Condition="'$(NativeCMakeGenerator)' == 'MinGW Makefiles'">-DCMAKE_BUILD_TYPE=$(Configuration) -DCMAKE_CXX_COMPILER=&quot;$(MinGwBinDirectory)\g++.exe&quot; -DCMAKE_MAKE_PROGRAM=&quot;$(MinGwMakeProgram)&quot;</NativeCMakeGeneratorArguments>
+    <NativeCMakeGeneratorArguments Condition="'$(NativeCMakeGenerator)' != 'MinGW Makefiles'">-A x64</NativeCMakeGeneratorArguments>
+    <NativeEngineDll Condition="'$(NativeCMakeGenerator)' == 'MinGW Makefiles'">$(NativeEngineBuildDirectory)\LoopWall.Engine.dll</NativeEngineDll>
+    <NativeEngineDll Condition="'$(NativeEngineDll)' == ''">$(NativeEngineBuildDirectory)\$(Configuration)\LoopWall.Engine.dll</NativeEngineDll>
   </PropertyGroup>
 
   <Target Name="BuildNativeEngine" BeforeTargets="CopyFilesToOutputDirectory"
           Condition="'$(DesignTimeBuild)' != 'true' and '$(SkipNativeEngineBuild)' != 'true'">
-    <Exec Command="cmake -S &quot;$(NativeEngineSourceDirectory)&quot; -B &quot;$(NativeEngineBuildDirectory)&quot; -G &quot;Visual Studio 17 2022&quot; -A x64" />
+    <Exec Command="cmake -S &quot;$(NativeEngineSourceDirectory)&quot; -B &quot;$(NativeEngineBuildDirectory)&quot; -G &quot;$(NativeCMakeGenerator)&quot; $(NativeCMakeGeneratorArguments)" />
     <Exec Command="cmake --build &quot;$(NativeEngineBuildDirectory)&quot; --config $(Configuration) --target LoopWall.Engine" />
     <Error Condition="!Exists('$(NativeEngineDll)')"
            Text="The native build completed without producing $(NativeEngineDll)." />

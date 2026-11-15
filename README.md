@@ -2,6 +2,8 @@
 
 LoopWall is a Windows animated-wallpaper application. The project uses a WPF front end and a native C++ engine.
 
+-----------------
+
 ## Current status — Phase 2 native playback diagnostic
 
 Included:
